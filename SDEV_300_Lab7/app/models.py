@@ -10,6 +10,7 @@ class User(UserMixin):
         self.username = username
         # load_user needs an id attribute so id = username
         self.id = username
+        self.password = None
 
     def set_password(self, password):
         '''Sets encrypted password'''

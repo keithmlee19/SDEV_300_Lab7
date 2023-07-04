@@ -67,8 +67,8 @@ def login():
         # the file will exist
         if os.path.exists("data.txt"):
             # read-only access
-            with open("data.txt", "r", encoding="utf-8") as fr:
-                for line in fr.readlines():
+            with open("data.txt", "r", encoding="utf-8") as file_read:
+                for line in file_read.readlines():
                     user_info = line.strip().split(",")
                     uname = user_info[0]
                     hash_pass = user_info[1]
@@ -103,9 +103,9 @@ def registration():
         # need append and read access to file
         # if file exists already, check existing usernames
         if os.path.exists("data.txt"):
-            with open("data.txt", "a+", encoding="utf-8") as fa:
-                fa.seek(0) # move cursor to beginning
-                for line in fa.readlines():
+            with open("data.txt", "a+", encoding="utf-8") as file_append:
+                file_append.seek(0) # move cursor to beginning
+                for line in file_append.readlines():
                     user_info = line.strip().split(",")
                     uname = user_info[0]
                     print(uname)
@@ -113,15 +113,15 @@ def registration():
                         flash("Username already exists, please enter a unique username.")
                         return render_template("registration.html", form = form, dt_now = dt_now)
                 # if username doesn't already exist, append to file
-                fa.seek(0,2) # move cursor to end
-                fa.write(user1.username + "," + user1.password + "\n")
+                file_append.seek(0,2) # move cursor to end
+                file_append.write(user1.username + "," + user1.password + "\n")
                 login_user(user1)
                 flash("Registration successful, thank you for registering!")
                 return redirect(url_for("userhome"))
         # if file doesn't exist already, create file and write username/password to file
         else:
-            with open("data.txt", "a+", encoding="utf-8") as fa:
-                fa.write(user1.username + "," + user1.password + "\n")
+            with open("data.txt", "a+", encoding="utf-8") as file_append:
+                file_append.write(user1.username + "," + user1.password + "\n")
                 login_user(user1)
                 flash("Registration successful, thank you for registering!")
                 return redirect(url_for("userhome"))
