@@ -1,12 +1,12 @@
 '''Handles routing and runs program'''
-from app import create_app, login_manager
+from datetime import datetime
+import os
 from flask import render_template, flash, redirect, url_for
 from flask_login import login_user, login_required, current_user, logout_user
-from datetime import datetime
+from passlib.hash import sha256_crypt
+from app import create_app, login_manager
 from app.forms import LoginForm, RegistrationForm
 from app.models import User
-from passlib.hash import sha256_crypt
-import os
 
 app = create_app() # create app instance
 now = datetime.now() # current date/time
@@ -67,13 +67,15 @@ def login():
         # the file will exist
         if os.path.exists("data.txt"):
             # read-only access
-            with open("data.txt", "r") as f:
-                for line in f.readlines():
+            with open("data.txt", "r", encoding="utf-8") as fr:
+                for line in fr.readlines():
                     user_info = line.strip().split(",")
                     uname = user_info[0]
                     hash_pass = user_info[1]
                     # log in if correct username and password
-                    if (uname == user1.username) and (sha256_crypt.verify(form.password.data, hash_pass)):
+                    if (uname == user1.username) and (
+                        sha256_crypt.verify(form.password.data, hash_pass)
+                        ):
                         login_user(user1)
                         flash("Login successful!")
                         return redirect(url_for("userhome")) # redirect to user home
@@ -101,9 +103,9 @@ def registration():
         # need append and read access to file
         # if file exists already, check existing usernames
         if os.path.exists("data.txt"):
-            with open("data.txt", "a+") as f:
-                f.seek(0) # move cursor to beginning
-                for line in f.readlines():
+            with open("data.txt", "a+", encoding="utf-8") as fa:
+                fa.seek(0) # move cursor to beginning
+                for line in fa.readlines():
                     user_info = line.strip().split(",")
                     uname = user_info[0]
                     print(uname)
@@ -111,15 +113,15 @@ def registration():
                         flash("Username already exists, please enter a unique username.")
                         return render_template("registration.html", form = form, dt_now = dt_now)
                 # if username doesn't already exist, append to file
-                f.seek(0,2) # move cursor to end
-                f.write(user1.username + "," + user1.password + "\n")
+                fa.seek(0,2) # move cursor to end
+                fa.write(user1.username + "," + user1.password + "\n")
                 login_user(user1)
                 flash("Registration successful, thank you for registering!")
                 return redirect(url_for("userhome"))
         # if file doesn't exist already, create file and write username/password to file
         else:
-            with open("data.txt", "a+") as f:
-                f.write(user1.username + "," + user1.password + "\n")
+            with open("data.txt", "a+", encoding="utf-8") as fa:
+                fa.write(user1.username + "," + user1.password + "\n")
                 login_user(user1)
                 flash("Registration successful, thank you for registering!")
                 return redirect(url_for("userhome"))

@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField("Enter Password", [
         validators.DataRequired(),
         validators.regexp(
-            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*\d)(?=.*?[#?!@$%^&*-]).{12,}$",
+            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$",
             message="Password must be at least 12 characters "
             "and contain at least 1 lowercase letter, 1 uppercase letter, 1 digit,"
             "and 1 special character"
