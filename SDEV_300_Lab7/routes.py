@@ -4,9 +4,9 @@ import os
 from flask import render_template, flash, redirect, url_for
 from flask_login import login_user, login_required, current_user, logout_user
 from passlib.hash import sha256_crypt
-from app import create_app, login_manager
-from app.forms import LoginForm, RegistrationForm
-from app.models import User
+from siteapp import create_app, login_manager
+from forms import LoginForm, RegistrationForm
+from models import User
 
 app = create_app() # create app instance
 now = datetime.now() # current date/time

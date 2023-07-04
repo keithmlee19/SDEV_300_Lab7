@@ -1,7 +1,7 @@
 '''User class'''
 from flask_login import UserMixin
 from passlib.hash import sha256_crypt
-from app import login_manager
+from siteapp import login_manager
 
 class User(UserMixin):
     '''User class with set password function'''

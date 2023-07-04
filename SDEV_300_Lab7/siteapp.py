@@ -1,7 +1,8 @@
-'''Creates instance of Flask app object
+'''Application factory function
 Some credits to Miguel Grinberg's flask tutorial:
 https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 https://github.com/miguelgrinberg/microblog/
+https://www.freecodecamp.org/news/how-to-authenticate-users-in-flask/
 mostly the use of UserMixin and separation of concerns'''
 
 import secrets
